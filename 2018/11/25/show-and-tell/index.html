@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="图像标注,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="论文 Show and Tell:A Neural Image Caption Generator">
+<meta name="keywords" content="图像标注">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Show and Tell:A Neural Image Caption Generator">
+<meta property="og:url" content="http://yoursite.com/2018/11/25/show-and-tell/index.html">
+<meta property="og:site_name" content="Goodbye World">
+<meta property="og:description" content="论文 Show and Tell:A Neural Image Caption Generator">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/11/25/show-and-tell/show-and-tell/1.png">
+<meta property="og:updated_time" content="2018-12-03T15:19:01.217Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Show and Tell:A Neural Image Caption Generator">
+<meta name="twitter:description" content="论文 Show and Tell:A Neural Image Caption Generator">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/25/show-and-tell/show-and-tell/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/25/show-and-tell/">
+
+
+
+
+
+
+  <title>Show and Tell:A Neural Image Caption Generator | Goodbye World</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><link href="https://cdn.bootcss.com/KaTeX/0.7.1/katex.min.css" rel="stylesheet">
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Goodbye World</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/25/show-and-tell/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Citehtap">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/panda.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Goodbye World">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Show and Tell:A Neural Image Caption Generator</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-25T00:28:03+08:00">
+                2018-11-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Image-Caption/" itemprop="url" rel="index">
+                    <span itemprop="name">Image Caption</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>论文 <em>Show and Tell:A Neural Image Caption Generator</em></p>
+<a id="more"></a>
+<h2 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h2>
+<p>地址: <a href="https://github.com/nikhilmaram/Show_and_Tell" target="_blank" rel="noopener">https://github.com/nikhilmaram/Show_and_Tell</a></p>
+<h3 id="首先在mainpy中创建flags命令行参数"><a class="markdownIt-Anchor" href="#首先在mainpy中创建flags命令行参数"></a> 首先在main.py中创建FLAGS命令行参数</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">FLAGS = tf.app.flags.FLAGS</span><br><span class="line"></span><br><span class="line">tf.flags.DEFINE_string(<span class="string">'phase'</span>, <span class="string">'train'</span>,</span><br><span class="line">                       <span class="string">'The phase can be train, eval or test'</span>)</span><br><span class="line"></span><br><span class="line">tf.flags.DEFINE_boolean(<span class="string">'load'</span>, <span class="keyword">False</span>,</span><br><span class="line">                        <span class="string">'Turn on to load a pretrained model from either \</span></span><br><span class="line"><span class="string">                        the latest checkpoint or a specified file'</span>)</span><br><span class="line"></span><br><span class="line">tf.flags.DEFINE_string(<span class="string">'model_file'</span>, <span class="keyword">None</span>,</span><br><span class="line">                       <span class="string">'If sepcified, load a pretrained model from this file'</span>)</span><br><span class="line"></span><br><span class="line">tf.flags.DEFINE_boolean(<span class="string">'load_cnn'</span>, <span class="keyword">False</span>,</span><br><span class="line">                        <span class="string">'Turn on to load a pretrained CNN model'</span>)</span><br><span class="line"></span><br><span class="line">tf.flags.DEFINE_string(<span class="string">'cnn_model_file'</span>, <span class="string">'./vgg16_no_fc.npy'</span>,</span><br><span class="line">                       <span class="string">'The file containing a pretrained CNN model'</span>)</span><br><span class="line"></span><br><span class="line">tf.flags.DEFINE_boolean(<span class="string">'train_cnn'</span>, <span class="keyword">False</span>,</span><br><span class="line">                        <span class="string">'Turn on to train both CNN and RNN. \</span></span><br><span class="line"><span class="string">                         Otherwise, only RNN is trained'</span>)</span><br><span class="line"></span><br><span class="line">tf.flags.DEFINE_integer(<span class="string">'beam_size'</span>, <span class="number">3</span>,</span><br><span class="line">                        <span class="string">'The size of beam search for caption generation'</span>)</span><br></pre></td></tr></table></figure>
+<p>三个参数分别代表：参数名、默认值、描述</p>
+<h3 id="创建config对象用flags参数初始化config的一些属性"><a class="markdownIt-Anchor" href="#创建config对象用flags参数初始化config的一些属性"></a> 创建Config对象，用flags参数初始化config的一些属性</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">config = Config()</span><br><span class="line">config.phase = FLAGS.phase</span><br><span class="line">config.train_cnn = FLAGS.train_cnn</span><br><span class="line">config.beam_size = FLAGS.beam_size</span><br></pre></td></tr></table></figure>
+<h3 id="创建session"><a class="markdownIt-Anchor" href="#创建session"></a> 创建session</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> asess:</span><br></pre></td></tr></table></figure>
+<p>根据FLAGS.phase，进行训练、评估或测试</p>
+<h4 id="训练flagsphase-train"><a class="markdownIt-Anchor" href="#训练flagsphase-train"></a> 训练(FLAGS.phase == ‘train’)</h4>
+<h5 id="准备训练用的数据集"><a class="markdownIt-Anchor" href="#准备训练用的数据集"></a> 准备训练用的数据集</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = prepare_train_data(config)</span><br></pre></td></tr></table></figure>
+<p>prepare_train_data()是dataset.py中的方法</p>
+<h6 id="通过cocoapi进行初始化"><a class="markdownIt-Anchor" href="#通过cocoapi进行初始化"></a> 通过COCOAPI进行初始化</h6>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">coco = COCO(config.train_caption_file)</span><br><span class="line">coco.filter_by_cap_len(config.max_caption_length)</span><br></pre></td></tr></table></figure>
+<p>其中coco.filter_by_cap_len()并非COCOAPI中的方法；coco.filter_by_cap_len()根据图片描述的文字长度过滤数据：如果长度大于max_cap_len，则不会将其加入训练数据集中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">filter_by_cap_len</span><span class="params">(self, max_cap_len)</span>:</span></span><br><span class="line">    print(<span class="string">"Filtering the captions by length..."</span>)</span><br><span class="line">    keep_ann = &#123;&#125;</span><br><span class="line">    keep_img = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> ann <span class="keyword">in</span> tqdm(self.dataset[<span class="string">'annotations'</span>]):</span><br><span class="line">        <span class="keyword">if</span> len(word_tokenize(ann[<span class="string">'caption'</span>]))&lt;=max_cap_len:</span><br><span class="line">            keep_ann[ann[<span class="string">'id'</span>]] = keep_ann.get(ann[<span class="string">'id'</span>], <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line">            keep_img[ann[<span class="string">'image_id'</span>]] = keep_img.get(ann[<span class="string">'image_id'</span>], <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    self.dataset[<span class="string">'annotations'</span>] = \</span><br><span class="line">        [ann <span class="keyword">for</span> ann <span class="keyword">in</span> self.dataset[<span class="string">'annotations'</span>] \</span><br><span class="line">        <span class="keyword">if</span> keep_ann.get(ann[<span class="string">'id'</span>],<span class="number">0</span>)&gt;<span class="number">0</span>]</span><br><span class="line">    self.dataset[<span class="string">'images'</span>] = \</span><br><span class="line">        [img <span class="keyword">for</span> img <span class="keyword">in</span> self.dataset[<span class="string">'images'</span>] \</span><br><span class="line">        <span class="keyword">if</span> keep_img.get(img[<span class="string">'id'</span>],<span class="number">0</span>)&gt;<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    self.createIndex()</span><br></pre></td></tr></table></figure>
+<h6 id="创建词汇表vocabulary"><a class="markdownIt-Anchor" href="#创建词汇表vocabulary"></a> 创建词汇表vocabulary</h6>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vocabulary = Vocabulary(config.vocabulary_size)</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(config.vocabulary_file):</span><br><span class="line">    vocabulary.build(coco.all_captions())</span><br><span class="line">    vocabulary.save(config.vocabulary_file)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    vocabulary.load(config.vocabulary_file)</span><br></pre></td></tr></table></figure>
+<p>如果相应目录中存在文件，则会载入词汇表；如果不存在，则会重新创建词汇表并保存为文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build</span><span class="params">(self, sentences)</span>:</span></span><br><span class="line">    <span class="string">'''     </span></span><br><span class="line"><span class="string">    建立词汇表，并计算每个单词的使用频率</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    word_counts = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> sentence <span class="keyword">in</span> tqdm(sentences):</span><br><span class="line">        <span class="keyword">for</span> w <span class="keyword">in</span> word_tokenize(sentence.lower()):</span><br><span class="line">            word_counts[w] = word_counts.get(w, <span class="number">0</span>) + <span class="number">1.0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">assert</span> self.size<span class="number">-1</span> &lt;= len(word_counts.keys())</span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    在起始位置加上&lt;start&gt;</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    self.words.append(<span class="string">'&lt;start&gt;'</span>)</span><br><span class="line">    self.word2idx[<span class="string">'&lt;start&gt;'</span>] = <span class="number">0</span></span><br><span class="line">    self.word_frequencies.append(<span class="number">1.0</span>)</span><br><span class="line"></span><br><span class="line">    word_counts = sorted(list(word_counts.items()),</span><br><span class="line">                        key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>],</span><br><span class="line">                        reverse=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> idx <span class="keyword">in</span> range(self.size<span class="number">-1</span>):</span><br><span class="line">        word, frequency = word_counts[idx]</span><br><span class="line">        self.words.append(word)</span><br><span class="line">        self.word2idx[word] = idx + <span class="number">1</span></span><br><span class="line">        self.word_frequencies.append(frequency)</span><br><span class="line"></span><br><span class="line">    <span class="string">''''</span></span><br><span class="line"><span class="string">    用 log(pi/sum(p)/max(pi/sum(p))) 表示频率</span></span><br><span class="line"><span class="string">    '''</span><span class="string">'</span></span><br><span class="line"><span class="string">    self.word_frequencies = np.array(self.word_frequencies)</span></span><br><span class="line"><span class="string">    self.word_frequencies /= np.sum(self.word_frequencies)</span></span><br><span class="line"><span class="string">    self.word_frequencies = np.log(self.word_frequencies)</span></span><br><span class="line"><span class="string">    self.word_frequencies -= np.max(self.word_frequencies)</span></span><br></pre></td></tr></table></figure>
+<h6 id="根据词汇表进行过滤"><a class="markdownIt-Anchor" href="#根据词汇表进行过滤"></a> 根据词汇表进行过滤</h6>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coco.filter_by_words(set(vocabulary.words))</span><br></pre></td></tr></table></figure>
+<p>coco.filter_by_words()会根据上一步获取的vocabulary，将存在不在词汇表中的单词的标注所在的样本去除</p>
+<h6 id="保存过滤后的annotations"><a class="markdownIt-Anchor" href="#保存过滤后的annotations"></a> 保存过滤后的annotations</h6>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(config.temp_annotation_file):</span><br><span class="line">    captions = [coco.anns[ann_id][<span class="string">'caption'</span>] <span class="keyword">for</span> ann_id <span class="keyword">in</span> coco.anns]</span><br><span class="line">    image_ids = [coco.anns[ann_id][<span class="string">'image_id'</span>] <span class="keyword">for</span> ann_id <span class="keyword">in</span> coco.anns]</span><br><span class="line">    image_files = [os.path.join(config.train_image_dir,</span><br><span class="line">                                coco.imgs[image_id][<span class="string">'file_name'</span>])</span><br><span class="line">                                <span class="keyword">for</span> image_id <span class="keyword">in</span> image_ids]</span><br><span class="line">    annotations = pd.DataFrame(&#123;<span class="string">'image_id'</span>: image_ids,</span><br><span class="line">                                <span class="string">'image_file'</span>: image_files,</span><br><span class="line">                                <span class="string">'caption'</span>: captions&#125;)</span><br><span class="line">    annotations.to_csv(config.temp_annotation_file)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    annotations = pd.read_csv(config.temp_annotation_file)</span><br><span class="line">    captions = annotations[<span class="string">'caption'</span>].values</span><br><span class="line">    image_ids = annotations[<span class="string">'image_id'</span>].values</span><br><span class="line">    image_files = annotations[<span class="string">'image_file'</span>].values</span><br></pre></td></tr></table></figure>
+<p>如果存在相应的文件则读取；否则根据captions,image_ids,image_files创建annotations并保存为文件</p>
+<h6 id="保存过滤后的data"><a class="markdownIt-Anchor" href="#保存过滤后的data"></a> 保存过滤后的data</h6>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(config.temp_data_file):</span><br><span class="line">    word_idxs = []</span><br><span class="line">    masks = []</span><br><span class="line">    <span class="keyword">for</span> caption <span class="keyword">in</span> tqdm(captions):</span><br><span class="line">        current_word_idxs_ = vocabulary.process_sentence(caption)</span><br><span class="line">        current_num_words = len(current_word_idxs_)</span><br><span class="line">        current_word_idxs = np.zeros(config.max_caption_length,</span><br><span class="line">                                     dtype = np.int32)</span><br><span class="line">        current_masks = np.zeros(config.max_caption_length)</span><br><span class="line">        current_word_idxs[:current_num_words] = np.array(current_word_idxs_)</span><br><span class="line">        current_masks[:current_num_words] = <span class="number">1.0</span></span><br><span class="line">        word_idxs.append(current_word_idxs)</span><br><span class="line">        masks.append(current_masks)</span><br><span class="line">    word_idxs = np.array(word_idxs)</span><br><span class="line">    masks = np.array(masks)</span><br><span class="line">    data = &#123;<span class="string">'word_idxs'</span>: word_idxs, <span class="string">'masks'</span>: masks&#125;</span><br><span class="line">    np.save(config.temp_data_file, data)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    data = np.load(config.temp_data_file).item()</span><br><span class="line">    word_idxs = data[<span class="string">'word_idxs'</span>]</span><br><span class="line">    masks = data[<span class="string">'masks'</span>]</span><br></pre></td></tr></table></figure>
+<h6 id="返回dataset"><a class="markdownIt-Anchor" href="#返回dataset"></a> 返回dataset</h6>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dataset = DataSet(image_ids, image_files, config.batch_size, word_idxs</span><br><span class="line">                  , masks, <span class="keyword">True</span>, <span class="keyword">True</span>)</span><br><span class="line">print(<span class="string">"Dataset built."</span>)</span><br><span class="line"><span class="keyword">return</span> dataset</span><br></pre></td></tr></table></figure>
+<h5 id="建立训练模型"><a class="markdownIt-Anchor" href="#建立训练模型"></a> 建立训练模型</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model = CaptionGenerator(config)</span><br></pre></td></tr></table></figure>
+<p>在model.py中，会根据config中的配置加载CNN( vgg16或resnet50 )模型和RNN模型；如果需要进行训练，还会建立optimizer和summary。summary用于通过TensorBoard实现可视化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="string">""" Build the model. """</span></span><br><span class="line">    self.build_cnn()</span><br><span class="line">    self.build_rnn()</span><br><span class="line">    <span class="keyword">if</span> self.is_train:</span><br><span class="line">        self.build_optimizer()</span><br><span class="line">        self.build_summary()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_cnn</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="string">""" Build the CNN. """</span></span><br><span class="line">    print(<span class="string">"Building the CNN..."</span>)</span><br><span class="line">    <span class="keyword">if</span> self.config.cnn == <span class="string">'vgg16'</span>:         </span><br><span class="line">        self.build_vgg16()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        self.build_resnet50()</span><br><span class="line">    print(<span class="string">"CNN built."</span>)</span><br></pre></td></tr></table></figure>
+<h6 id="vgg16"><a class="markdownIt-Anchor" href="#vgg16"></a> vgg16</h6>
+<h6 id="resnet50"><a class="markdownIt-Anchor" href="#resnet50"></a> resnet50</h6>
+<h6 id="rnn"><a class="markdownIt-Anchor" href="#rnn"></a> rnn</h6>
+<h5 id="载入模型"><a class="markdownIt-Anchor" href="#载入模型"></a> 载入模型</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> FLAGS.load:</span><br><span class="line">	model.load(sess, FLAGS.model_file)</span><br><span class="line"><span class="keyword">if</span> FLAGS.load_cnn:</span><br><span class="line">	model.load_cnn(sess, FLAGS.cnn_model_file)</span><br></pre></td></tr></table></figure>
+<p>todo</p>
+<h5 id="完成计算图的构建"><a class="markdownIt-Anchor" href="#完成计算图的构建"></a> 完成计算图的构建</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.get_default_graph().finalize()</span><br></pre></td></tr></table></figure>
+<p>进行训练</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.train(sess, data)</span><br></pre></td></tr></table></figure>
+<h4 id="评估"><a class="markdownIt-Anchor" href="#评估"></a> 评估</h4>
+<h5 id="初始化coco-data和vocabulary"><a class="markdownIt-Anchor" href="#初始化coco-data和vocabulary"></a> 初始化coco, data和vocabulary</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coco, data, vocabulary = prepare_eval_data(config)</span><br></pre></td></tr></table></figure>
+<p>通过dataset.py中的prepare_eval_data()进行初始化</p>
+<h6 id="通过cocoapi进行初始化-2"><a class="markdownIt-Anchor" href="#通过cocoapi进行初始化-2"></a> 通过COCOAPI进行初始化</h6>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coco = COCO(config.eval_caption_file)</span><br></pre></td></tr></table></figure>
+<h6 id="创建数据集"><a class="markdownIt-Anchor" href="#创建数据集"></a> 创建数据集</h6>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 图像索引和图像文件</span></span><br><span class="line">image_ids = list(coco.imgs.keys())</span><br><span class="line">image_files = [os.path.join(config.eval_image_dir, coco.imgs[image_id][<span class="string">'file_name'</span>])</span><br><span class="line">                                <span class="keyword">for</span> image_id <span class="keyword">in</span> image_ids]</span><br><span class="line"><span class="comment"># 词汇表</span></span><br><span class="line"><span class="keyword">if</span> os.path.exists(config.vocabulary_file):</span><br><span class="line">    vocabulary = Vocabulary(config.vocabulary_size, config.vocabulary_file)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    vocabulary = build_vocabulary(config)</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 数据集</span></span><br><span class="line">dataset = DataSet(image_ids, image_files, config.batch_size)</span><br></pre></td></tr></table></figure>
+<h5 id="初始化model并载入"><a class="markdownIt-Anchor" href="#初始化model并载入"></a> 初始化model并载入</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">model = CaptionGenerator(config)</span><br><span class="line">model.load(sess, FLAGS.model_file)</span><br></pre></td></tr></table></figure>
+<h5 id="构建计算图并进行评估"><a class="markdownIt-Anchor" href="#构建计算图并进行评估"></a> 构建计算图并进行评估</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tf.get_default_graph().finalize()</span><br><span class="line">model.eval(sess, coco, data, vocabulary)</span><br></pre></td></tr></table></figure>
+<h6 id="evalself-sess-eval_gt_coco-eval_data-vocabulary"><a class="markdownIt-Anchor" href="#evalself-sess-eval_gt_coco-eval_data-vocabulary"></a> eval(self, sess, eval_gt_coco, eval_data, vocabulary)</h6>
+<h4 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试</h4>
+<h5 id="初始化coco-data和vocabulary-2"><a class="markdownIt-Anchor" href="#初始化coco-data和vocabulary-2"></a> 初始化coco, data和vocabulary</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data, vocabulary = prepare_test_data(config)</span><br></pre></td></tr></table></figure>
+<h6 id="创建数据集-2"><a class="markdownIt-Anchor" href="#创建数据集-2"></a> 创建数据集</h6>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过路径files创建图像索引和图像文件</span></span><br><span class="line">files = os.listdir(config.test_image_dir)</span><br><span class="line">image_files = [os.path.join(config.test_image_dir, f) <span class="keyword">for</span> f <span class="keyword">in</span> files</span><br><span class="line">    <span class="keyword">if</span> f.lower().endswith(<span class="string">'.jpg'</span>) <span class="keyword">or</span> f.lower().endswith(<span class="string">'.jpeg'</span>)]</span><br><span class="line">image_ids = list(range(len(image_files)))</span><br><span class="line"><span class="comment"># 词汇表</span></span><br><span class="line"><span class="keyword">if</span> os.path.exists(config.vocabulary_file):</span><br><span class="line">    vocabulary = Vocabulary(config.vocabulary_size, config.vocabulary_file)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    vocabulary = build_vocabulary(config)</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 数据集</span></span><br><span class="line">dataset = DataSet(image_ids, image_files, config.batch_size)</span><br></pre></td></tr></table></figure>
+<h5 id="初始化model并载入-2"><a class="markdownIt-Anchor" href="#初始化model并载入-2"></a> 初始化model并载入</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">model = CaptionGenerator(config)</span><br><span class="line">model.load(sess, FLAGS.model_file)</span><br></pre></td></tr></table></figure>
+<h5 id="构建计算图并进行测试"><a class="markdownIt-Anchor" href="#构建计算图并进行测试"></a> 构建计算图并进行测试</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tf.get_default_graph().finalize()</span><br><span class="line">model.test(sess, data, vocabulary)</span><br></pre></td></tr></table></figure>
+<h2 id="论文"><a class="markdownIt-Anchor" href="#论文"></a> 论文</h2>
+<blockquote>
+<p>Encoder-Decoder结构: 在机器翻译中，将原单词序列 x_1,\dots ,x_n 通过Encoder部分“编码”为一个向量表示，再利用Decoder部分对此向量进行&quot;解码&quot;，输出目标单词序列 y_1,\dots,y_m 。</p>
+</blockquote>
+<p>本论文的方法是，将原来Encoder-Decoder结构中的Encoder部分替换成CNN，利用在图像中常用的CNN来提取图像的特征，再通过Decoder解码生成标注。结构如下图所示：</p>
+<p><img src="show-and-tell/1.png" alt="image-20181109224331812"></p>
+<p>模型分为以下2个部分</p>
+<ol>
+<li>
+<p>Image embedder：也就是encoder部分，通过CNN，将图片 $$I$$ 编码为一个长度固定为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.01968em;">l</span></span></span></span> 的向量：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>x</mi><mrow><mo>−</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>C</mi><mi>N</mi><mi>N</mi><mo>(</mo><mi>I</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">x_{-1}=CNN(I)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord">−</span><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.07153em;">C</span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mclose">)</span></span></span></span></span></p>
+</li>
+<li>
+<p>Word embedding：</p>
+<p>首先在每一个标注的前后分别加上start和end标签（也就是上图中的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>S</mi><mn>0</mn></msub><mo separator="true">,</mo><msub><mi>S</mi><mi>N</mi></msub></mrow><annotation encoding="application/x-tex">S_0,S_N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.05764em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathrm">0</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mpunct">,</span><span class="mord"><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.05764em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit" style="margin-right:0.10903em;">N</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> ，这两个标签也会作为标注中的内容）。假设语料库中共有 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">m</span></span></span></span> 个单词，对语料中所有的单词进行one-hot编码，这个每个句子都可以表示为一个 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">m</span></span></span></span> 维向量；然后对这个m维向量进行矩阵变换成为一个 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.01968em;">l</span></span></span></span> 维向量（与图片向量的大小相同）：</p>
+x_t=W_es_t,t\in{\{0,\dots,N-1\}}
+
+<p>上式的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>W</mi><mi>e</mi></msub></mrow><annotation encoding="application/x-tex">W_e</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">e</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> 可以通过学习得到。 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo>∈</mo><mrow><msup><mi mathvariant="double-struck">R</mi><mi>l</mi></msup></mrow><mo separator="true">,</mo><msub><mi>W</mi><mi>e</mi></msub><mo>∈</mo><mrow><msup><mi mathvariant="double-struck">R</mi><mrow><mi>l</mi><mo>∗</mo><mi>m</mi></mrow></msup></mrow></mrow><annotation encoding="application/x-tex">x\in{\mathbb R^l},W_e\in{\mathbb R^{l*m}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.849108em;"></span><span class="strut bottom" style="height:1.043548em;vertical-align:-0.19444em;"></span><span class="base textstyle uncramped"><span class="mord mathit">x</span><span class="mrel">∈</span><span class="mord textstyle uncramped"><span class=""><span class="mord mathbb">R</span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.01968em;">l</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span><span class="mpunct">,</span><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">e</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">∈</span><span class="mord textstyle uncramped"><span class=""><span class="mord mathbb">R</span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mbin">∗</span><span class="mord mathit">m</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span></span> 。</p>
+<p>最后通过LSTM输出结果，这就是decoder部分：</p>
+p_{t+1}=\text{LSTM}(x_t),t\in{\{0,\dots,N-1\}}
+
+<p>LSTM后会跟随一个Softmax分类器，分类数量等于词汇数量。</p>
+<p>最后可以得到损失函数：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mo>(</mo><mi>I</mi><mo separator="true">,</mo><mi>S</mi><mo>)</mo><mo>=</mo><mo>−</mo><msubsup><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></msubsup><mi>log</mi><mrow><msub><mi>p</mi><mi>t</mi></msub><mo>(</mo><msub><mi>S</mi><mi>t</mi></msub><mo>)</mo></mrow></mrow><annotation encoding="application/x-tex">L(I,S)=-\sum_{t=1}^N\log{p_t(S_t)}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.8283360000000002em;"></span><span class="strut bottom" style="height:3.0954490000000003em;vertical-align:-1.267113em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathit">L</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord">−</span><span class="mop op-limits"><span class="vlist"><span style="top:1.1671129999999998em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">t</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span><span style="top:-0.000005000000000143778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span><span class="op-symbol large-op mop">∑</span></span></span><span style="top:-1.2500050000000003em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.10903em;">N</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit">p</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">t</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.05764em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">t</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span></span></span></span></span></span></p>
+</li>
+</ol>
+<p>因此，如果模型的参数为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.02778em;">θ</span></span></span></span> ，对于一张(训练集中的)图片 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.07847em;">I</span></span></span></span> ，其正确的描述为序列 S=\{S_1,S_2,\dots\}  ，那么我们要通过训练最大化概率 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>I</mi><mo separator="true">;</mo><mi>θ</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">p(S|I;\theta)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit">p</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mpunct">;</span><span class="mord mathit" style="margin-right:0.02778em;">θ</span><span class="mclose">)</span></span></span></span> ，也就是最大化<strong>对给定图片生成正确描述</strong>的概率，用以下公式表示：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>θ</mi><mo>∗</mo></msup><mo>=</mo><mi>arg</mi><msub><mi>max</mi><mi>θ</mi></msub><msub><mo>∑</mo><mrow><mo>(</mo><mi>I</mi><mo separator="true">,</mo><mi>S</mi><mo>)</mo></mrow></msub><mi>log</mi><mi>p</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>I</mi><mo separator="true">;</mo><mi>θ</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\theta^*=\arg \max_\theta \sum_{(I,S)} \log p(S|I;\theta)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.050005em;"></span><span class="strut bottom" style="height:2.5660100000000003em;vertical-align:-1.516005em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.02778em;">θ</span><span class="vlist"><span style="top:-0.413em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord">∗</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">=</span><span class="mop">ar<span style="margin-right:0.01389em;">g</span></span><span class="mop op-limits"><span class="vlist"><span style="top:0.652108em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit" style="margin-right:0.02778em;">θ</span></span></span><span style="top:8.326672684688674e-17em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span><span class="mop">max</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mop op-limits"><span class="vlist"><span style="top:1.241005em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mclose">)</span></span></span></span><span style="top:-0.000005000000000032756em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span><span class="op-symbol large-op mop">∑</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mord mathit">p</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mpunct">;</span><span class="mord mathit" style="margin-right:0.02778em;">θ</span><span class="mclose">)</span></span></span></span></span></p>
+<p>由于 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.05764em;">S</span></span></span></span> 可以表示任何句子，而句子的长度是无限制的，因此常用链规则来描述在 S_0,\dots,S_N 上的联合概率，其中 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.10903em;">N</span></span></span></span> 是特定样本的长度：</p>
+\log p(S|I)=\sum_{t=0}^{N}\log p(S_t|I,S_0,\dots,S_{t-1})
+
+<p>为了方便，上式移除了对 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.02778em;">θ</span></span></span></span> 的依赖性。</p>
+<p>模型的损失函数是每一步中正确单词的negative log likelihood的总和：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mo>(</mo><mi>I</mi><mo separator="true">,</mo><mi>S</mi><mo>)</mo><mo>=</mo><mo>−</mo><msubsup><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></msubsup><mi>log</mi><mrow><msub><mi>p</mi><mi>t</mi></msub><mo>(</mo><msub><mi>S</mi><mi>t</mi></msub><mo>)</mo></mrow></mrow><annotation encoding="application/x-tex">L(I,S)=-\sum_{t=1}^N\log{p_t(S_t)}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.8283360000000002em;"></span><span class="strut bottom" style="height:3.0954490000000003em;vertical-align:-1.267113em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathit">L</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord">−</span><span class="mop op-limits"><span class="vlist"><span style="top:1.1671129999999998em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">t</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span><span style="top:-0.000005000000000143778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span><span class="op-symbol large-op mop">∑</span></span></span><span style="top:-1.2500050000000003em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.10903em;">N</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit">p</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">t</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.05764em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">t</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span></span></span></span></span></span></p>
+<p>因为RNN会出现梯度消失和爆炸(vanishing and exploding gradients)，所以使用RNN的改进版LSTM。LSTM的主要结构为：</p>
+<blockquote>
+<ul>
+<li>
+<p>LSTM通过输入门、遗忘门和输出门来实现信息的控制</p>
+</li>
+<li>
+<p>遗忘门：该门决定丢弃信息的多少，会读取 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>h</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo separator="true">,</mo><msub><mi>x</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">h_{t-1},x_t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.902771em;vertical-align:-0.208331em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">h</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">t</span><span class="mbin">−</span><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mpunct">,</span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">t</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> ，给每个在细胞状态 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>C</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">C_{t-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.891661em;vertical-align:-0.208331em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.07153em;">C</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.07153em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">t</span><span class="mbin">−</span><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> 的数字输出一个0到1的数值，表示对信息的保留程度：</p>
+f_t=\sigma(W_f·[h_{t-1},x_t]+b_f)
+
+<p>其中 h_{t−1} 表示的是上一个cell的输出， <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>x</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">x_t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">t</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> 表示的是当前细胞的输入， σ 表示sigmod函数。</p>
+</li>
+<li>
+<p>输入门：该门决定新信息的加入量。首先，由一个sigmoid层决定哪些信息需要更新；由一个tanh层生成一个向量，也就是备选的用来更新的内容 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><msub><mi>C</mi><mi>t</mi></msub></mrow><mo>~</mo></mover></mrow><annotation encoding="application/x-tex">\tilde{C_t}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.9201900000000001em;"></span><span class="strut bottom" style="height:1.07019em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord"><span class="mord mathit" style="margin-right:0.07153em;">C</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.07153em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">t</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span><span style="top:-0.60233em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>~</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> 。在下一步，我们把这两部分联合起来，对cell的状态进行一个更新。最后把旧状态与 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>f</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">f_t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.10764em;">f</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.10764em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">t</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> 相乘，丢弃掉需要丢弃的信息，再加上 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>i</mi><mi>t</mi></msub><mo>∗</mo><mover accent="true"><mrow><msub><mi>C</mi><mi>t</mi></msub></mrow><mo>~</mo></mover></mrow><annotation encoding="application/x-tex">i_t*\tilde{C_t}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.9201900000000001em;"></span><span class="strut bottom" style="height:1.07019em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">i</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">t</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">∗</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord"><span class="mord mathit" style="margin-right:0.07153em;">C</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.07153em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">t</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span><span style="top:-0.60233em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>~</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> ，这就是新的候选值：</p>
+i_t=\sigma(W_i·[h_{t-1},x_t]+b_i) \\
+\tilde{C_t}=\tanh(W_C·[h_{t-1},x_t]+b_C) \\
+C_t=f_t*C_{t-1}+i_t*\tilde{C_t}
+
+</li>
+<li>
+<p>输出门：该门决定输出的值。首先，通过一个sigmoid层来确定细胞状态的哪个部分将输出出去。接着，我们把细胞状态通过 tanh 进行处理（得到一个在 -1 到 1 之间的值）并将它和 sigmoid 门的输出相乘，最终我们仅仅会输出我们确定输出的那部分：</p>
+o_t=\sigma(W_o·[h_{t-1},x_t]+b_o) \\
+h_t=o_t*\tanh(C_t)
+
+</li>
+</ul>
+</blockquote>
+<h3 id=""><a class="markdownIt-Anchor" href="#"></a> </h3>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/图像标注/" rel="tag"># 图像标注</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/19/ImageCaption/" rel="next" title="Image Caption">
+                <i class="fa fa-chevron-left"></i> Image Caption
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/26/scrapy/" rel="prev" title="Scrapy demo">
+                Scrapy demo <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/panda.jpg" alt="Citehtap">
+            
+              <p class="site-author-name" itemprop="name">Citehtap</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">1.</span> <span class="nav-text"> 代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#首先在mainpy中创建flags命令行参数"><span class="nav-number">1.1.</span> <span class="nav-text"> 首先在main.py中创建FLAGS命令行参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建config对象用flags参数初始化config的一些属性"><span class="nav-number">1.2.</span> <span class="nav-text"> 创建Config对象，用flags参数初始化config的一些属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建session"><span class="nav-number">1.3.</span> <span class="nav-text"> 创建session</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#训练flagsphase-train"><span class="nav-number">1.3.1.</span> <span class="nav-text"> 训练(FLAGS.phase == ‘train’)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#准备训练用的数据集"><span class="nav-number">1.3.1.1.</span> <span class="nav-text"> 准备训练用的数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#通过cocoapi进行初始化"><span class="nav-number">1.3.1.1.1.</span> <span class="nav-text"> 通过COCOAPI进行初始化</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#创建词汇表vocabulary"><span class="nav-number">1.3.1.1.2.</span> <span class="nav-text"> 创建词汇表vocabulary</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#根据词汇表进行过滤"><span class="nav-number">1.3.1.1.3.</span> <span class="nav-text"> 根据词汇表进行过滤</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#保存过滤后的annotations"><span class="nav-number">1.3.1.1.4.</span> <span class="nav-text"> 保存过滤后的annotations</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#保存过滤后的data"><span class="nav-number">1.3.1.1.5.</span> <span class="nav-text"> 保存过滤后的data</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#返回dataset"><span class="nav-number">1.3.1.1.6.</span> <span class="nav-text"> 返回dataset</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#建立训练模型"><span class="nav-number">1.3.1.2.</span> <span class="nav-text"> 建立训练模型</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#vgg16"><span class="nav-number">1.3.1.2.1.</span> <span class="nav-text"> vgg16</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#resnet50"><span class="nav-number">1.3.1.2.2.</span> <span class="nav-text"> resnet50</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#rnn"><span class="nav-number">1.3.1.2.3.</span> <span class="nav-text"> rnn</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#载入模型"><span class="nav-number">1.3.1.3.</span> <span class="nav-text"> 载入模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#完成计算图的构建"><span class="nav-number">1.3.1.4.</span> <span class="nav-text"> 完成计算图的构建</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#评估"><span class="nav-number">1.3.2.</span> <span class="nav-text"> 评估</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#初始化coco-data和vocabulary"><span class="nav-number">1.3.2.1.</span> <span class="nav-text"> 初始化coco, data和vocabulary</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#通过cocoapi进行初始化-2"><span class="nav-number">1.3.2.1.1.</span> <span class="nav-text"> 通过COCOAPI进行初始化</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#创建数据集"><span class="nav-number">1.3.2.1.2.</span> <span class="nav-text"> 创建数据集</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#初始化model并载入"><span class="nav-number">1.3.2.2.</span> <span class="nav-text"> 初始化model并载入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#构建计算图并进行评估"><span class="nav-number">1.3.2.3.</span> <span class="nav-text"> 构建计算图并进行评估</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#evalself-sess-eval_gt_coco-eval_data-vocabulary"><span class="nav-number">1.3.2.3.1.</span> <span class="nav-text"> eval(self, sess, eval_gt_coco, eval_data, vocabulary)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试"><span class="nav-number">1.3.3.</span> <span class="nav-text"> 测试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#初始化coco-data和vocabulary-2"><span class="nav-number">1.3.3.1.</span> <span class="nav-text"> 初始化coco, data和vocabulary</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#创建数据集-2"><span class="nav-number">1.3.3.1.1.</span> <span class="nav-text"> 创建数据集</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#初始化model并载入-2"><span class="nav-number">1.3.3.2.</span> <span class="nav-text"> 初始化model并载入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#构建计算图并进行测试"><span class="nav-number">1.3.3.3.</span> <span class="nav-text"> 构建计算图并进行测试</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论文"><span class="nav-number">2.</span> <span class="nav-text"> 论文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">2.1.</span> <span class="nav-text"> </span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Citehtap</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
