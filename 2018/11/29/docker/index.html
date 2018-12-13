@@ -342,59 +342,45 @@
       
         <p>to be done</p>
 <a id="more"></a>
-<h3 id="docker核心组成"><a class="markdownIt-Anchor" href="#docker核心组成"></a> Docker核心组成</h3>
-<ul>
-<li>
-<p>镜像 ( Image )</p>
+<h3 id="Docker核心组成"><a href="#Docker核心组成" class="headerlink" title="Docker核心组成"></a>Docker核心组成</h3><ul>
+<li><p>镜像 ( Image )</p>
 </li>
-<li>
-<p>容器 ( Container )</p>
+<li><p>容器 ( Container )</p>
 </li>
-<li>
-<p>网络 ( Network )</p>
+<li><p>网络 ( Network )</p>
 </li>
-<li>
-<p>数据卷 ( Volume )</p>
+<li><p>数据卷 ( Volume )</p>
 </li>
 </ul>
-<h3 id="docker生命周期"><a class="markdownIt-Anchor" href="#docker生命周期"></a> Docker生命周期</h3>
-<p><img src="docker/3.png" alt=""></p>
+<h3 id="Docker生命周期"><a href="#Docker生命周期" class="headerlink" title="Docker生命周期"></a>Docker生命周期</h3><p><img src="docker/3.png" alt=""></p>
 <p>其中核心的状态为<strong>Created</strong>、<strong>Running</strong>、<strong>Paused</strong>、<strong>Stopped</strong>、<strong>Deleted</strong>。</p>
-<h3 id="docker使用"><a class="markdownIt-Anchor" href="#docker使用"></a> Docker使用</h3>
-<h4 id="更改镜像源"><a class="markdownIt-Anchor" href="#更改镜像源"></a> 更改镜像源</h4>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 修改/etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"registry-mirrors"</span>: [</span><br><span class="line">        <span class="string">"https://registry.docker-cn.com"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Docker使用"><a href="#Docker使用" class="headerlink" title="Docker使用"></a>Docker使用</h3><h4 id="更改镜像源"><a href="#更改镜像源" class="headerlink" title="更改镜像源"></a>更改镜像源</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 修改/etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"registry-mirrors"</span>: [</span><br><span class="line">        <span class="string">"https://registry.docker-cn.com"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然后重启docker daemon</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
-<h4 id="查看镜像"><a class="markdownIt-Anchor" href="#查看镜像"></a> 查看镜像</h4>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+<h4 id="查看镜像"><a href="#查看镜像" class="headerlink" title="查看镜像"></a>查看镜像</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
 <p><img src="docker/1.png" alt=""></p>
 <blockquote>
 <p>IMAGE ID只显示了12个字符，实际有64字符</p>
 </blockquote>
 <p>镜像名组成为 <code>repository</code> 和 <code>tag</code>。 <code>repository</code> 组成为用户名/库名，如 <code>tensorflow/tensorflow</code>；<code>tag</code> 一般为版本号。</p>
-<p>还可以用<code>docker inspect tensorflow</code>查看镜像的详细信息</p>
-<h4 id="获取镜像"><a class="markdownIt-Anchor" href="#获取镜像"></a> 获取镜像</h4>
-<p>可通过<code>docker pull tensorflow</code>进行镜像的拉取。</p>
-<h5 id="docker-hub"><a class="markdownIt-Anchor" href="#docker-hub"></a> Docker Hub</h5>
-<p>在 Docker Hub 中：</p>
+<p>还可以用<code>docker inspect tensorflow</code>查看镜像的详细信息 </p>
+<h4 id="获取镜像"><a href="#获取镜像" class="headerlink" title="获取镜像"></a>获取镜像</h4><p>可通过<code>docker pull tensorflow</code>进行镜像的拉取。</p>
+<h5 id="Docker-Hub"><a href="#Docker-Hub" class="headerlink" title="Docker Hub"></a>Docker Hub</h5><p>在 Docker Hub 中：</p>
 <ul>
 <li>OFFICIAL 代表镜像为 Docker 官方提供和维护</li>
 <li>STARS 代表镜像的关注人数</li>
 <li>PULLS 代表镜像被拉取的次数</li>
 </ul>
 <p>可通过命令<code>docker search tensorflow</code>进行搜索</p>
-<h4 id="删除镜像"><a class="markdownIt-Anchor" href="#删除镜像"></a> 删除镜像</h4>
-<p><code>docker rmi tensorflow</code></p>
-<h4 id="创建容器"><a class="markdownIt-Anchor" href="#创建容器"></a> 创建容器</h4>
-<p>创建容器：<code>docker create</code>，容器别名：<code>docker create --name tf tensorflow</code></p>
+<h4 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h4><p><code>docker rmi tensorflow</code></p>
+<h4 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h4><p>创建容器：<code>docker create</code>，容器别名：<code>docker create --name tf tensorflow</code></p>
 <p>启动容器：<code>docker start tf</code></p>
 <p>使用<code>docker run --name tf tensorflow</code>会执行创建和启动两个步骤</p>
 <ul>
 <li>使用<code>run</code>启动的容器会将控制台连接到自己身上，可以加上<code>-d</code> 或 <code>—detach</code>来让容器运行于后台。</li>
 <li>如果镜像不存在，docker会自动执行<code>pull</code>操作</li>
 </ul>
-<h4 id="管理容器"><a class="markdownIt-Anchor" href="#管理容器"></a> 管理容器</h4>
-<p>查看正在运行的容器：<code>docker ps</code>，加上 <code>-a</code> 或 <code>--all</code> 选项可以查看所有容器</p>
+<h4 id="管理容器"><a href="#管理容器" class="headerlink" title="管理容器"></a>管理容器</h4><p>查看正在运行的容器：<code>docker ps</code>，加上 <code>-a</code> 或 <code>--all</code> 选项可以查看所有容器</p>
 <p><img src="docker/4.png" alt=""></p>
 <p>CONTAINER ID、IMAGE、COMMAND、CREATED、STATUS、PORTS、NAMES分别表示容器 ID、容器所基于的镜像、容器中主程序 ( 也就是与容器生命周期所绑定进程所关联的程序 ) 的启动命令、容器的创建时间、容器状态、容器暴露出的端口、容器名称。</p>
 <p>容器的COMMAND主要有三种：</p>
@@ -403,20 +389,16 @@
 <li>Up [ Time ] 这时候容器处于正在运行状态，而这里的 Time 表示容器从开始运行到查看时的时间。</li>
 <li>Exited ([ Code ]) [ Time ] 容器已经结束运行，这里的 Code 表示容器结束运行时，主程序返回的程序退出码，而 Time 则表示容器结束到查看时的时间。</li>
 </ul>
-<h4 id="停止-删除容器"><a class="markdownIt-Anchor" href="#停止-删除容器"></a> 停止、删除容器</h4>
-<p>停止容器：<code>docker stop tf</code>，停止后仍然可以通过<code>start</code>启动</p>
+<h4 id="停止、删除容器"><a href="#停止、删除容器" class="headerlink" title="停止、删除容器"></a>停止、删除容器</h4><p>停止容器：<code>docker stop tf</code>，停止后仍然可以通过<code>start</code>启动</p>
 <p>删除容器：<code>docker rm tf</code>，增加 <code>-f</code> 或 <code>--force</code> 选项可以强制删除</p>
-<h4 id="进入容器"><a class="markdownIt-Anchor" href="#进入容器"></a> 进入容器</h4>
-<p>通过<code>docker exec</code>可以在容器中执行命令，如：</p>
+<h4 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h4><p>通过<code>docker exec</code>可以在容器中执行命令，如：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec cd/usr/data/db</span><br></pre></td></tr></table></figure>
 <p>也可以启动容器中的shell或bash：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it tf bash</span><br></pre></td></tr></table></figure>
 <p>其中 <code>-i</code>或<code>--interactive</code>表示保持输入流，只有使用它才能保证控制台程序能够正确识别我们的命令；<code>-t</code>或<code>--tty</code>表示启用一个伪终端，形成终端与容器的bash的交互；两者可以合为<code>-it</code>。</p>
-<h5 id="衔接到容器"><a class="markdownIt-Anchor" href="#衔接到容器"></a> 衔接到容器</h5>
-<p>通过<code>docker attach</code>可以让容器衔接到终端上，如：</p>
+<h5 id="衔接到容器"><a href="#衔接到容器" class="headerlink" title="衔接到容器"></a>衔接到容器</h5><p>通过<code>docker attach</code>可以让容器衔接到终端上，如：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker attach tf</span><br></pre></td></tr></table></figure>
-<h3 id="容器网络"><a class="markdownIt-Anchor" href="#容器网络"></a> 容器网络</h3>
-<p><img src="docker/image-20181129205609920-3496169.png" alt="image-20181129205609920"></p>
+<h3 id="容器网络"><a href="#容器网络" class="headerlink" title="容器网络"></a>容器网络</h3><p><img src="docker/image-20181129205609920-3496169.png" alt="image-20181129205609920"></p>
 <p>在 Docker 网络中，有三个比较核心的概念：<strong>沙盒 ( Sandbox )、网络 ( Network )、端点 ( Endpoint )</strong>。</p>
 <ul>
 <li>沙盒提供了容器的虚拟网络栈，也就是之前所提到的端口套接字、IP 路由表、防火墙等的内容。其实现隔离了容器网络与宿主机网络，形成了完全独立的容器网络环境。</li>
@@ -424,22 +406,17 @@
 <li>端点是位于容器或网络隔离墙之上的洞，其主要目的是形成一个可以控制的突破封闭的网络环境的出入口。当容器的端点与网络的端点形成配对后，就如同在这两者之间搭建了桥梁，便能够进行数据传输了。</li>
 </ul>
 <p>这三者形成了 Docker 网络的核心模型，也就是容器网络模型 ( Container Network Model )。</p>
-<h4 id="容器互联"><a class="markdownIt-Anchor" href="#容器互联"></a> 容器互联</h4>
-<p>在<code>create</code>或<code>run</code>中，通过<code>--link</code>可以实现容器间的互通</p>
+<h4 id="容器互联"><a href="#容器互联" class="headerlink" title="容器互联"></a>容器互联</h4><p>在<code>create</code>或<code>run</code>中，通过<code>--link</code>可以实现容器间的互通</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name mysql -e MYSQL_RANDOM_ROOT_PASSWORD=yes mysql</span><br><span class="line">docker run -d --name webapp --link mysql webapp:latest</span><br></pre></td></tr></table></figure>
 <p>那么，根据上述配置，在webapp中使用JDBC进行数据库连接可以写成：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String url = <span class="string">"jdbc:mysql://mysql:3306/webapp"</span></span><br></pre></td></tr></table></figure>
-<h4 id="暴露端口"><a class="markdownIt-Anchor" href="#暴露端口"></a> 暴露端口</h4>
-<p>在容器创建时，通过<code>--expose</code>可以暴露端口：</p>
+<h4 id="暴露端口"><a href="#暴露端口" class="headerlink" title="暴露端口"></a>暴露端口</h4><p>在容器创建时，通过<code>--expose</code>可以暴露端口：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name mysql -e MYSQL_RANDOM_ROOT_PASSWORD=yes --expose 13306 --expose 23306 mysql:5.7</span><br></pre></td></tr></table></figure>
-<h5 id="别名"><a class="markdownIt-Anchor" href="#别名"></a> 别名</h5>
-<p>使用<code>--link &lt;name&gt;:&lt;alias&gt;</code>的形式可以创建别名：</p>
+<h5 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h5><p>使用<code>--link &lt;name&gt;:&lt;alias&gt;</code>的形式可以创建别名：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name webapp --link mysql:database webapp:latest</span><br></pre></td></tr></table></figure>
 <p>在通过JDBC连接时可以使用别名连接：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String url = <span class="string">"jdbc:mysql://database:3306/webapp"</span>;</span><br></pre></td></tr></table></figure>
-<h4 id="管理网络"><a class="markdownIt-Anchor" href="#管理网络"></a> 管理网络</h4>
-<h5 id="创建网络"><a class="markdownIt-Anchor" href="#创建网络"></a> 创建网络</h5>
-<p>docker CLI 里与网络相关的命令都以 <code>docker network</code> 开头，其中创建网络的命令是 <code>docker network create</code>。</p>
+<h4 id="管理网络"><a href="#管理网络" class="headerlink" title="管理网络"></a>管理网络</h4><h5 id="创建网络"><a href="#创建网络" class="headerlink" title="创建网络"></a>创建网络</h5><p>docker CLI 里与网络相关的命令都以 <code>docker network</code> 开头，其中创建网络的命令是 <code>docker network create</code>。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create -d bridge individual</span><br></pre></td></tr></table></figure>
 <p>通过<code>-d</code>选项可以为新的网络指定驱动的类型，其值可以是 bridge、host、overlay、maclan、none，也可以是其他网络驱动插件所定义的类型；当我们不指定网络驱动时，Docker默认采用Bridge Driver作为网络驱动 。</p>
 <p>通过 <code>docker network ls</code> 或是 <code>docker network list</code> 可以查看 Docker 中已经存在的网络。</p>
@@ -625,7 +602,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker核心组成"><span class="nav-number">1.</span> <span class="nav-text"> Docker核心组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker生命周期"><span class="nav-number">2.</span> <span class="nav-text"> Docker生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker使用"><span class="nav-number">3.</span> <span class="nav-text"> Docker使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更改镜像源"><span class="nav-number">3.1.</span> <span class="nav-text"> 更改镜像源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看镜像"><span class="nav-number">3.2.</span> <span class="nav-text"> 查看镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取镜像"><span class="nav-number">3.3.</span> <span class="nav-text"> 获取镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#docker-hub"><span class="nav-number">3.3.1.</span> <span class="nav-text"> Docker Hub</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除镜像"><span class="nav-number">3.4.</span> <span class="nav-text"> 删除镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建容器"><span class="nav-number">3.5.</span> <span class="nav-text"> 创建容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#管理容器"><span class="nav-number">3.6.</span> <span class="nav-text"> 管理容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#停止-删除容器"><span class="nav-number">3.7.</span> <span class="nav-text"> 停止、删除容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进入容器"><span class="nav-number">3.8.</span> <span class="nav-text"> 进入容器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#衔接到容器"><span class="nav-number">3.8.1.</span> <span class="nav-text"> 衔接到容器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器网络"><span class="nav-number">4.</span> <span class="nav-text"> 容器网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#容器互联"><span class="nav-number">4.1.</span> <span class="nav-text"> 容器互联</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#暴露端口"><span class="nav-number">4.2.</span> <span class="nav-text"> 暴露端口</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#别名"><span class="nav-number">4.2.1.</span> <span class="nav-text"> 别名</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#管理网络"><span class="nav-number">4.3.</span> <span class="nav-text"> 管理网络</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#创建网络"><span class="nav-number">4.3.1.</span> <span class="nav-text"> 创建网络</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker核心组成"><span class="nav-number">1.</span> <span class="nav-text">Docker核心组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker生命周期"><span class="nav-number">2.</span> <span class="nav-text">Docker生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker使用"><span class="nav-number">3.</span> <span class="nav-text">Docker使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更改镜像源"><span class="nav-number">3.1.</span> <span class="nav-text">更改镜像源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看镜像"><span class="nav-number">3.2.</span> <span class="nav-text">查看镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取镜像"><span class="nav-number">3.3.</span> <span class="nav-text">获取镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Docker-Hub"><span class="nav-number">3.3.1.</span> <span class="nav-text">Docker Hub</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除镜像"><span class="nav-number">3.4.</span> <span class="nav-text">删除镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建容器"><span class="nav-number">3.5.</span> <span class="nav-text">创建容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#管理容器"><span class="nav-number">3.6.</span> <span class="nav-text">管理容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#停止、删除容器"><span class="nav-number">3.7.</span> <span class="nav-text">停止、删除容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进入容器"><span class="nav-number">3.8.</span> <span class="nav-text">进入容器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#衔接到容器"><span class="nav-number">3.8.1.</span> <span class="nav-text">衔接到容器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器网络"><span class="nav-number">4.</span> <span class="nav-text">容器网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#容器互联"><span class="nav-number">4.1.</span> <span class="nav-text">容器互联</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#暴露端口"><span class="nav-number">4.2.</span> <span class="nav-text">暴露端口</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#别名"><span class="nav-number">4.2.1.</span> <span class="nav-text">别名</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#管理网络"><span class="nav-number">4.3.</span> <span class="nav-text">管理网络</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#创建网络"><span class="nav-number">4.3.1.</span> <span class="nav-text">创建网络</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
