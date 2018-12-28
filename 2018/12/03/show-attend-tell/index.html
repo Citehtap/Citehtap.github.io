@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="……">
+<meta name="description" content="y = \left\{ \mathbf { y } _ { 1 } , \ldots , \mathbf { y } _ { C } \right\} , \mathbf { y } _ { i } \in \mathbb { R } ^ { K } a = \left\{ \mathbf { a } _ { 1 } , \ldots , \mathbf { a } _ { L } \right">
 <meta name="keywords" content="图像标注">
 <meta property="og:type" content="article">
 <meta property="og:title" content="show_attend_tell">
 <meta property="og:url" content="http://yoursite.com/2018/12/03/show-attend-tell/index.html">
 <meta property="og:site_name" content="Goodbye World">
-<meta property="og:description" content="……">
+<meta property="og:description" content="y = \left\{ \mathbf { y } _ { 1 } , \ldots , \mathbf { y } _ { C } \right\} , \mathbf { y } _ { i } \in \mathbb { R } ^ { K } a = \left\{ \mathbf { a } _ { 1 } , \ldots , \mathbf { a } _ { L } \right">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-04T03:31:06.183Z">
+<meta property="og:updated_time" content="2018-12-28T03:32:19.022Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="show_attend_tell">
-<meta name="twitter:description" content="……">
+<meta name="twitter:description" content="y = \left\{ \mathbf { y } _ { 1 } , \ldots , \mathbf { y } _ { C } \right\} , \mathbf { y } _ { i } \in \mathbb { R } ^ { K } a = \left\{ \mathbf { a } _ { 1 } , \ldots , \mathbf { a } _ { L } \right">
 
 
 
@@ -334,8 +334,21 @@
       
 
       
-        <p>……</p>
-
+        <script type="math/tex; mode=display">
+y = \left\{ \mathbf { y } _ { 1 } , \ldots , \mathbf { y } _ { C } \right\} , \mathbf { y } _ { i } \in \mathbb { R } ^ { K }</script><script type="math/tex; mode=display">
+a = \left\{ \mathbf { a } _ { 1 } , \ldots , \mathbf { a } _ { L } \right\} , \mathbf { a } _ { i } \in \mathbb { R } ^ { D }</script><script type="math/tex; mode=display">
+\left( \begin{array} { c } { \mathbf { i } _ { t } } \\ { \mathbf { f } _ { t } } \\ { \mathbf { o } _ { t } } \\ { \mathbf { g } _ { t } } \end{array} \right) = \left( \begin{array} { c } { \sigma } \\ { \sigma } \\ { \sigma } \\ { \tanh } \end{array} \right) T _ { D + m + n , n } \left( \begin{array} { c } { \mathbf { E y } _ { t - 1 } } \\ { \mathbf { h } _ { t - 1 } } \\ { \mathbf { z } _ { t } } \end{array} \right)</script><script type="math/tex; mode=display">
+\mathbf { c } _ { t } = \mathbf { f } _ { t } \odot \mathbf { c } _ { t - 1 } + \mathbf { i } _ { t } \odot \mathbf { g } _ { t }</script><script type="math/tex; mode=display">
+\mathbf { h } _ { t } = \mathbf { o } _ { t } \odot \tanh \left( \mathbf { c } _ { t } \right)</script><script type="math/tex; mode=display">
+e _ { t i } = f _ { \mathrm { att } } \left( \mathbf { a } _ { i } , \mathbf { h } _ { t - 1 } \right)</script><script type="math/tex; mode=display">
+\alpha _ { t i } = \frac { \exp \left( e _ { t i } \right) } { \sum _ { k = 1 } ^ { L } \exp \left( e _ { t k } \right) }</script><script type="math/tex; mode=display">
+\hat { \mathbf { z } } _ { t } = \phi \left( \left\{ \mathbf { a } _ { i } \right\} , \left\{ \alpha _ { i } \right\} \right)</script><script type="math/tex; mode=display">
+\mathbf { c } _ { 0 } = f _ { \text { init } , c } \left( \frac { 1 } { L } \sum _ { i } ^ { L } \mathbf { a } _ { i } \right)</script><script type="math/tex; mode=display">
+\mathbf { h } _ { 0 } = f _ { \mathrm { inith } } \left( \frac { 1 } { L } \sum _ { i } ^ { L } \mathbf { a } _ { i } \right)</script><script type="math/tex; mode=display">
+p \left( \mathbf { y } _ { t } | \mathbf { a } , \mathbf { y } _ { 1 } ^ { t - 1 } \right) \propto \exp \left( \mathbf { L } _ { o } \left( \mathbf { E } \mathbf { y } _ { t - 1 } + \mathbf { L } _ { h } \mathbf { h } _ { t } + \mathbf { L } _ { z } \hat { \mathbf { z } } _ { t } \right) \right)</script><script type="math/tex; mode=display">
+\mathbb { E } _ { p \left( s _ { t } | a \right) } \left[ \hat { \mathbf { z } } _ { t } \right] = \sum _ { i = 1 } ^ { L } \alpha _ { t , i } \mathbf { a } _ { i }</script><script type="math/tex; mode=display">
+\begin{aligned} N W G M \left[ p \left( y _ { t } = k | \mathbf { a } \right) \right] & = \frac { \prod _ { i } \exp \left( n _ { t , k , i } \right) ^ { p \left( s _ { t , i } = 1 | a \right) } } { \sum _ { j } \prod _ { i } \exp \left( n _ { t , j , i } \right) ^ { p \left( s _ { t , i } = 1 | a \right) } } \\ & = \frac { \exp \left( \mathbb { E } _ { p \left( s _ { t } | a \right) } \left[ n _ { t , k } \right] \right) } { \sum _ { j } \exp \left( \mathbb { E } _ { p \left( s _ { t } | a \right) } \left[ n _ { t , j } \right] \right) } \end{aligned}</script><script type="math/tex; mode=display">
+L _ { d } = - \log ( P ( \mathbf { y } | \mathbf { x } ) ) + \lambda \sum _ { i } ^ { L } \left( 1 - \sum _ { t } ^ { C } \alpha _ { t i } \right) ^ { 2 }</script>
       
     </div>
     
